@@ -1,4 +1,4 @@
-﻿#include <cstdio>
+﻿﻿#include <cstdio>
 #include <algorithm>
 #include <vector>
 #include <queue>
@@ -37,7 +37,7 @@ int main() {
 
 		for (int i = 0; i < K; i++) {
 			scanf("%d %d %d %d", &u, &v, &c, &d);
-			adj[u - 1].push_back(Edge(v-1, c, d));
+			adj[u - 1].push_back(Edge(v - 1, c, d));
 		}
 
 		// dist 배열 초기화
@@ -88,7 +88,7 @@ int main() {
 		}
 
 		// 이걸 다 하고 나면, dist[0][0]부터 시작해서 N-1번 공항까지 가는 최단소요시간이 저장되어있음.
-		
+
 		/*
 		int ret = INF;
 		for (int i = 0; i <= M; i++) {

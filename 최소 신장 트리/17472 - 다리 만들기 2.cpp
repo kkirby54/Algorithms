@@ -24,7 +24,6 @@ void dfs(int r, int c) {
 		if (map[nR][nC] != 0) {
 			dfs(nR, nC);
 		}
-
 	}
 }
 

@@ -9,7 +9,8 @@ bool visited[100005];
 int dp[100005];
 
 void make_tree(int curr) {
-	// Root의 인접한 애들을 다 봐.
+	// curr의 인접한 애들을 다 봐.
+	dp[curr] = 1;
 	visited[curr] = true;
 
 	for (int next : adj[curr]) {

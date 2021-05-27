@@ -2,7 +2,8 @@
 #include <algorithm>
 
 int C, H, W;
-char board[21][21];
+char tmp[21];
+int board[21][21];
 
 const int coverType[4][3][2] = {
 	{ {0,0}, {1,0}, {0, 1} },
@@ -11,7 +12,7 @@ const int coverType[4][3][2] = {
 	{ {0,0 }, {1,0}, {1, -1}}
 };
 
-bool set(int r, int c, int index) {
+bool set(int r, int c, int index, int delta) {
 	// 덮을 수 있는지 없는지.
 	int R, C;
 	bool isPossible = true;
@@ -21,19 +22,14 @@ bool set(int r, int c, int index) {
 		C = c + coverType[index][i][1];
 
 		if (R < 0 || R >= H || C < 0 || C >= W) {
-			return false;
+			isPossible = false;
 		}
+		else if ((board[R][C] += delta) > 1)
+			isPossible = false;
 
-		if (board[R][C] == '#') return false;
-		else {
-			// 이걸 이렇게 덮으면
-			// 나중에 다시 '.'로 해줘야 됨.
-			board[R][C] = '#';
-		}
 	}
 
-	// 그럼 덮어버림
-	return true;
+	return isPossible;
 }
 
 // 제일 위에서부터 덮는다고 가정하자.
@@ -45,7 +41,7 @@ int cover(int rest) {
 
 	for (int i = 0; i < H; i++) {
 		for (int j = 0; j < W; j++) {
-			if (board[i][j] == '.') {
+			if (board[i][j] == 0) {
 				cur_r = i, cur_c = j;
 				break;
 			}
@@ -59,25 +55,12 @@ int cover(int rest) {
 	// 그러면 덮어봐. 어떻게? 4가지 방법으로.
 	for (int i = 0; i < 4; i ++) {
 		// 덮을 수 있다면
-		// 일단 원래 모양 저장해놔
-		int R[3], C[3];
-		char tmp[3];
-		for (int j = 0; j < 3; j++) {
-			R[j] = cur_r + coverType[i][j][0];
-			C[j] = cur_c + coverType[i][j][1];
-			
-			tmp[j] = board[R[j]][C[j]];
-		}
-
-		if (set(cur_r, cur_c, i)) {
+		if (set(cur_r, cur_c, i, 1)) {
 			ret += cover(rest - 1);
 		}
 
 		// 돌려놔
-		for (int j = 0; j < 3; j++) {
-			board[R[j]][C[j]] = tmp[j];
-		}
-
+		set(cur_r, cur_c, i, -1);
 	}
 	
 	return ret;
@@ -91,9 +74,13 @@ int main() {
 		int N;
 
 		for (int i = 0; i < H; i++) {
-			scanf("%s", board[i]);
+			scanf("%s", tmp);
 			for (int j = 0; j < W; j++) {
-				if (board[i][j] == '.') cnt++;
+				if (tmp[j] == '.') {
+					board[i][j] = 0;
+					cnt++;
+				}
+				else board[i][j] = 1;
 			}
 		}
 

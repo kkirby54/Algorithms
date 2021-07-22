@@ -9,7 +9,6 @@ typedef pair<int, int> P;
 
 vector<P> adj[101];
 bool reachable[101][101];
-int dist[101][101];
 
 int C, V, W, a, b, d;
 
@@ -51,12 +50,6 @@ int main() {
 
 		memset(reachable, false, sizeof(reachable));
 		for (int i = 0; i < V; i++) adj[i].clear();
-		for (int i = 0; i < V; i++) {
-			for (int j = 0; j < V; j++) {
-				if (i == j) dist[i][j] = 0;
-				else dist[i][j] = INF;
-			}
-		}
 
 		for (int i = 0; i < W; i++) {
 			scanf("%d %d %d", &a, &b, &d);
@@ -69,16 +62,11 @@ int main() {
 		for (int k = 0; k < V; k++) {
 			for (int i = 0; i < V; i++) {
 				for (int j = 0; j < V; j++) {
-					dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+					reachable[i][j] = (reachable[i][j] || (reachable[i][k] && reachable[k][j]));
 				}
 			}
 		}
 
-		for (int i = 0; i < V; i++) {
-			for (int j = 0; j < V; j++) {
-				if (dist[i][j] < INF - 123456789) reachable[i][j] = true;
-			}
-		}
 
 		if (!reachable[0][1]) {
 			puts("UNREACHABLE");

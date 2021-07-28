@@ -31,12 +31,11 @@ void Sync(int index, int cnt) {
 	}
 
 	// 0번에서 3번까지 누를 수 있음.
-	int curr[5], curr_val[5];
+	// 원래 상태를 저장하는 curr_val 배열
+	int curr_val[5];
 	for (int i = 0; i < 5; i++) {
-		curr[i] = ButtonList[index][i];
-
-		if (curr[i] != -1)
-			curr_val[i] = clocks[curr[i]];
+		if (ButtonList[index][i] != -1)
+			curr_val[i] = clocks[ButtonList[index][i]];
 	}
 
 	for (int i = 0; i < 4; i++) {

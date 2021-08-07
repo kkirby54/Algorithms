@@ -29,7 +29,7 @@ int Waca(int index1, int index2) {
 		return 1;
 	}
 
-	// 두 문자열 비교해서 리턴.
+	// 두 문자열 비교해서 판단.
 	if (WildWord[index1] != word[index2]) {
 		if (WildWord[index1] == '*' || WildWord[index1] == '?');
 		else return 0;
@@ -44,14 +44,17 @@ int Waca(int index1, int index2) {
 	// WildWord[index1]이 *이라면,
 	// 분기가 나뉘게 된다.
 	if (WildWord[index1] == '*') {
+		// *를 사용해서, 비교문자열의 인덱스만 하나 늘린다.
+		// ex. WildWord = *p*, word = help 일 때 해당한다.
 		ret += Waca(index1, index2 + 1);
+		
+		// *를 쓰지 않고 넘긴다.
+		// 역시 ******p*****라는 Wildword가 있다고 해보자.
+		// word = help라고 했을 때,
+		// 이 수많은 *을 그냥 무시하고 넘기면 된다.
+		// 이런 상황에서 중복 케이스가 많이 발생한다.
 		ret += Waca(index1 + 1, index2);
 	}
-	// 1. 그냥 index2를 ++해주면서 비교한다.
-	// Waca(index1, index2+1);
-	
-	// 2. 하나의 문자로 취급. index1을 늘려서 탈출한다.
-
 	return ret;
 }
 

@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <cstring>
 #include <vector>
-
+using namespace std;
 int T, N, K, tmp;
 
 long long pSum[100002] = { 0 };
